@@ -1,29 +1,49 @@
 # Automatización del Flujo de Reclutamiento en OrangeHRM
 
-Este proyecto implementa la automatización del flujo de reclutamiento en la plataforma OrangeHRM utilizando el Patrón Screenplay y Cucumber. A continuación, se detalla la estructura del proyecto y cómo se han aplicado estos principios.
+Este proyecto implementa la automatización del flujo de reclutamiento en la plataforma OrangeHRM utilizando herramientas avanzadas de automatización como Selenium y Cucumber, estructurado bajo el Patrón Screenplay. A continuación, se detalla la estructura del proyecto y los principios aplicados.
 
 ## **Estructura del Proyecto**
 
-### **1. Patrón Screenplay**
-El Patrón Screenplay se utiliza para organizar el código de automatización en roles, tareas y preguntas, lo que facilita la legibilidad y el mantenimiento del código.
+### **Modelo Screenplay**
+El proyecto sigue el Patrón Screenplay, organizado en roles, tareas, interacciones y preguntas:
+1. **Actors**: Los usuarios que interactúan con el sistema.
+2. **Tasks**: Agrupan acciones a alto nivel, como registrar un candidato o agendar una entrevista.
+3. **Interactions**: Acciones específicas como hacer clic, enviar texto o seleccionar elementos.
+4. **Questions**: Verifican el estado actual de la aplicación después de las interacciones.
 
-- **Actors**: Representan a los usuarios que interactúan con la aplicación.
-- **Tasks**: Son las acciones que los actores realizan, como iniciar sesión, completar formularios o navegar por la aplicación.
-- **Interactions**: Describen interacciones específicas con elementos de la interfaz, como hacer clic o escribir texto.
-- **Questions**: Verifican el estado de la aplicación, como comprobar si un elemento está visible o si un texto es correcto.
+### **Estructura del Proyecto**
 
-### **2. Cucumber**
-Cucumber se utiliza para escribir escenarios en lenguaje Gherkin, que describe el flujo de las pruebas en términos de características, escenarios y pasos.
+El proyecto está organizado en los siguientes paquetes para garantizar escalabilidad y facilidad de mantenimiento:
+- **`features/`**: Contiene los escenarios de prueba escritos en Gherkin.
+- **`tasks/`**: Define las tareas de alto nivel que ejecutan los actores.
+- **`interactions/`**: Implementa interacciones específicas con elementos de la interfaz de usuario.
+- **`questions/`**: Define las verificaciones que validan los resultados esperados.
+- **`runners/`**: Configura y ejecuta los escenarios de Cucumber.
+- **`utils/`**: Métodos auxiliares como configuraciones de espera o manejo de archivos.
 
-#### **Ejemplo de un archivo Gherkin**
-```gherkin
-Feature: Automatización del flujo de reclutamiento
+## **Uso de Locators en Selenium**
 
-  Scenario: Registrar un candidato exitosamente
-    Given El usuario está en la página de inicio de sesión
-    When El usuario inicia sesión con credenciales válidas
-    And Navega a la sección de Recruitment
-    And Completa el formulario de registro de candidato
-    And Marca al candidato como "Shortlist"
-    And Agenda una entrevista para el candidato
-    Then El candidato debería aparecer en el estado "Entrevista Programada"
+Se aplicó un enfoque sistemático para la identificación de objetos en la interfaz de usuario, priorizando los selectores más robustos y mantenibles.
+
+1. **Id**
+2. **Name**
+3. **Class**
+4. **XPath Relativo**
+5. **CSS Selectors**
+
+#### **Ejemplo de Locators en el Proyecto**
+```java
+// Prioridad 1: Id
+By usernameField = By.id("username");
+
+// Prioridad 2: Name
+By passwordField = By.name("password");
+
+// Prioridad 3: Class
+By loginButton = By.className("oxd-button");
+
+// Prioridad 4: XPath Relativo
+By saveButton = By.xpath("//button[text()=' Save ']");
+
+// Prioridad 5: CSS Selector
+By dropdownOption = By.cssSelector(".oxd-select-option");
